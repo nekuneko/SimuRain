@@ -1,0 +1,45 @@
+
+El esquema comienza con dos mangueras numeradas 1 (izquierda) y 2 (derecha) que suponen la entrada de líquidos al sistema, cada una controlada con un relé o electroválvula.
+
+El agua se mezcla en una "T" y pasa por el medidor de caudal (caudalímetro), medido de Ph y medidor de temperatura, en ese orden, antes de salir por la alcachofa de la ducha.
+
+Todo está conectado a una placa Arduino Leonardo (parece que la Arduino UNO tiene una memoria insuficiente para el software que necesitamos ejecutar). Sobre esa placa hay una placa de conexión que redirige los pines a los sensores correspondientes. El conexionado actual es el siguiente (NC es No Conectado, no se usa). A veces se indica uso distinto si fuera Leonardo o UNO:
+
+
+ // Pin configuration
+ // Note: By default relays are connected to 12v, so they are CLOSED and they don't permit water flow.
+ // pinMode(A5, NC);                  // A5 - Arduino UNO: I2C SCL; Arduino Leonardo: NC
+ // pinMode(A4, NC);                  // A4 - Arduino UNO: I2C SDA; Arduino Leonardo: NC
+ // pinMode(A3, NC);                  // A3 
+ // pinMode(A2, NC);                  // A2 
+ // pinMode(A1, NC);                  // A1 
+ // pinMode(13, NC);                  // D13                Arduino UNO: SPI SCK;  Arduino Leonardo: NC
+    pinMode(PIN_LED_INFO,   OUTPUT);  // D12 - LED INFO     Arduino UNO: SPI MISO; Arduino Leonardo: NC
+    pinMode(PIN_LED_STATUS, OUTPUT);  // D11 - LED STATUS   Arduino UNO: SPI MOSI; Arduino Leonardo: NC
+    pinMode(PIN_RELAY_1,    OUTPUT);  // D10 - Relay 8B -> ULN2803A Darlington Transistor Array -> 8C -> RIGHT RELAY, WATER INPUT 2: HIGH OPEN; LOW CLOSED
+    pinMode(PIN_RELAY_2,    OUTPUT);  // D9  - Relay 7B -> ULN2803A Darlington Transistor Array -> 7C -> LEFT  RELAY, WATER INPUT 1: HIGH OPEN; LOW CLOSED
+    pinMode(PIN_SENSOR_AUX,  INPUT);  // D8  - (A8) Sensor: AUX
+    pinMode(PIN_SENSOR_FLOW, INPUT_PULLUP);  // D7 - Sensor: Flow (INTERRUPT)
+    pinMode(PIN_SENSOR_PH,   INPUT);  // D6 - (A7)Sensor: PH   
+ // pinMode(PIN_SDCARD_SS,  OUTPUT);  // D5 - SPI Chipselect: MicroSD, initialized on SD begin function.
+ // pinMode(PIN_SENSOR_TEMP, INPUT);  // D4 - (A6) Sensor: Temp, initialized on DS18B20 constructor. 
+ // pinMode(3,  NC);                  // D3 - Arduino Leonardo: I2C SCL  
+ // pinMode(2,  NC);                  // D2 - Arduino Leonardo: I2C SDA  
+ // pinMode(1,  NC);                  // D1 - Arduino Leonardo: Serial1 
+ // pinMode(0,  NC);                  // D0 - Arduino Leonardo: Serial1
+
+
+La interfaz hardware del sistema muestra 5 leds:
+
+	* SISTEMA ENCENDIDO: Este led indica que el sistema está encendido y siempre se iluminará al conectar la alimentación.
+	* ENTRADA DE AGUA 1: Este led se iluminará cuando se encuentre abierta la entrada de agua número 1 (izquierda).
+	* ENTRADA DE AGUA 2: Este led se iluminará cuando se encuentre abierta la entrada de agua número 2 (derecha).
+	* ESTADO: Por determinar, si el arranque va bien se iluminará.
+	* INFO: Por determinar, si el arranque es correcto se iluminará.
+
+Dispone de un botón RESET para reiniciar el sistema en lugar de tener que desenchufar la placa y volverla a enchufar.
+
+
+
+Medida del caudal:
+El caudal se mide por interrupciones, durante un segundo, se leen cuantas vueltas ha realizado el sensor de efecto hall del caudalímetro.
