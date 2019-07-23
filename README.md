@@ -1,4 +1,27 @@
-Instrucciones provisionales (Work in progress...)
+* Instructions (Work in progress...)
+
+The system currently works following the flow:
+
+* The program is loaded into the ROM of the card and gets activated when receives electric power and the serial port is opened.
+
+* When running, the program writes every 2 second the data received from the different sensors. So running the Arduino IDE showing the serial port is recommended. This information is needed firstly to calibrate the instruments of the experiment.
+
+* Software records day-time, Ph and temperature every two seconds.
+
+* The output file is "datalog.txt", but it can be modified in the source code. It includes Windows CRLF, in UTF-8 format.
+
+* Every time new data is recorded in the microSD card, the modification date of the file in the operating system is modified.
+
+* New data is appended at the end of the file. If user needs data separated into different files, (s)he has to do it manually.
+
+Troubleshooting:
+
+* In case of problems when writing in the card, formatting the SD card with the "SD Card Formatter" software is recommended: https://www.sdcard.org/downloads/formatter_4/index.html
+
+* In case the time is not synchronized (or too early/delayed) it can be re-adjusted: disconnect electric power, take the batteries off using a screwdriver and, after 10 seconds, connect it again and load the program anew. The system, when the serial port will be opened, will detect that there is no actual time and will use the compilation time of the program as current time.
+
+
+* Instrucciones provisionales (Work in progress...)
 
 El programa actualmente funciona de la siguiente manera:
 
