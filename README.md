@@ -1,4 +1,4 @@
-* Instructions (Work in progress...)
+## Instructions (Work in progress...)
 
 The system currently works following the flow:
 
@@ -21,7 +21,7 @@ Troubleshooting:
 * In case the time is not synchronized (or too early/delayed) it can be re-adjusted: disconnect electric power, take the batteries off using a screwdriver and, after 10 seconds, connect it again and load the program anew. The system, when the serial port will be opened, will detect that there is no actual time and will use the compilation time of the program as current time.
 
 
-* Instrucciones provisionales (Work in progress...)
+## Instrucciones provisionales (Work in progress...)
 
 El programa actualmente funciona de la siguiente manera:
 
